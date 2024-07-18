@@ -10,9 +10,6 @@ public class EnemyMovement : MonoBehaviour
 
     public Rigidbody rb;
 
-    public TMP_Text log;
-
-
     Vector3 direction;
     Vector3 pastPos;
 
@@ -23,7 +20,6 @@ public class EnemyMovement : MonoBehaviour
         pastPos = transform.position;
         distanceTravelled = 0;
         direction = new Vector3(1,0,0);
-        
     }
 
     // Update is called once per frame
@@ -31,19 +27,16 @@ public class EnemyMovement : MonoBehaviour
     {   
         updateDistance();
 
-        if(Mathf.Abs(distanceTravelled) > distanceCap){
+        if(Mathf.Abs(distanceTravelled) > distanceCap && (distanceTravelled/Mathf.Abs(distanceTravelled)) == direction.x){
             distanceTravelled = distanceCap * direction.x; 
             direction *= -1;
                
         }
 
         rb.velocity = new Vector3(direction.x * speed, rb.velocity.y,0);
-        log.text = distanceTravelled + " ";
-        
     }
 
     public void updateDistance(){
-        distanceTravelled += (this.transform.position - pastPos).magnitude;
-        pastPos = this.transform.position;  
+        distanceTravelled = (this.transform.position - pastPos).x;
     }
 }

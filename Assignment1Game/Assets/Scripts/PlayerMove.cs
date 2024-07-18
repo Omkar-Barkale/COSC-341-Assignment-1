@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {   
     public int score;
+
+    public TMP_Text txt;
+
+    public TMP_Text ui;
 
     public float moveSpeed = 2f;
     public float jumpForce = 10f;
@@ -12,11 +17,16 @@ public class PlayerMove : MonoBehaviour
     public LayerMask ground;
     public GameObject feet;
 
+    public GameManager gm;
+
     public Rigidbody rb;
+
+    bool gameover;
     // Start is called before the first frame update
     void Start()
     {
         score = 0;
+        gameover = false;
     }
 
     // Update is called once per frame
@@ -43,9 +53,37 @@ public class PlayerMove : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
+        txt.text = score + "";
+        ui.text = score + "";
+
         if(other.gameObject.CompareTag("Coin")){
             score ++;
             Destroy(other.gameObject);
         }
+
+        if(other.gameObject.CompareTag("Mob")){
+            score--;
+            Destroy(other.gameObject);
+            if(score< 0 && !gameover){
+                gameover = true;
+                gm.gameOver();
+                Destroy(this.gameObject); 
+            }
+        }
+        if(other.gameObject.CompareTag("Goal") && !gameover){
+            gameover = true;
+            gm.gameOver();
+            Destroy(this.gameObject);
+        }
     }
+     
+
+    public void die(){
+        score = 0;
+            gameover = true;
+            gm.gameOver();
+            Destroy(this.gameObject);
+            txt.text = score + "";
+    }
+
 }
