@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
-{
+{   
+    public int score;
 
     public float moveSpeed = 2f;
     public float jumpForce = 10f;
@@ -15,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        score = 0;
     }
 
     // Update is called once per frame
@@ -29,7 +31,7 @@ public class PlayerMove : MonoBehaviour
         if(rb.velocity.y < 0 || !Input.GetKey(KeyCode.Space))
             rb.velocity += Vector3.up*Physics.gravity.y *(2.5f-1) * Time.deltaTime;
 
-        rb.velocity = new Vector3(moveSpeed*Input.GetAxis("Horizontal"), rb.velocity.y, 0);
+        rb.velocity = new Vector3(moveSpeed*Input.GetAxisRaw("Horizontal"), rb.velocity.y, 0);
     }
 
     public  void FixedUpdate() {
@@ -38,5 +40,12 @@ public class PlayerMove : MonoBehaviour
 
     public bool checkGround(){
         return Physics.CheckSphere(feet.transform.position, 1, ground);
+    }
+
+    void OnCollisionEnter(Collision other) {
+        if(other.gameObject.CompareTag("Coin")){
+            score ++;
+            Destroy(other.gameObject);
+        }
     }
 }

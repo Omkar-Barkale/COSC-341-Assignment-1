@@ -16,6 +16,7 @@ public class CameraFollowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         this.transform.position = new Vector3(Mathf.Lerp(this.transform.position.x, target.position.x, interval), Mathf.Lerp(this.transform.position.y, target.position.y, interval), zOffset);
     }
 }
