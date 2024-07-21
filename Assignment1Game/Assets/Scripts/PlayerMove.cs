@@ -53,8 +53,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
-        txt.text = score + "";
-        ui.text = score + "";
+        
 
         if(other.gameObject.CompareTag("Coin")){
             score ++;
@@ -75,6 +74,8 @@ public class PlayerMove : MonoBehaviour
             gm.gameOver();
             Destroy(this.gameObject);
         }
+        txt.text = score + "";
+        ui.text = "Score: " + score;
     }
      
 
