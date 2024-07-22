@@ -32,14 +32,13 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(grounded);
 
         if(Input.GetKeyDown(KeyCode.Space) && grounded){
             rb.AddForce(new Vector3(0,1,0)*jumpForce, ForceMode.Impulse);
         }
 
         if(rb.velocity.y < 0 || !Input.GetKey(KeyCode.Space))
-            rb.velocity += Vector3.up*Physics.gravity.y *(2.5f-1) * Time.deltaTime;
+            rb.velocity += Vector3.up*Physics.gravity.y *(1.5f) * Time.deltaTime;
 
         rb.velocity = new Vector3(moveSpeed*Input.GetAxisRaw("Horizontal"), rb.velocity.y, 0);
     }
@@ -80,7 +79,7 @@ public class PlayerMove : MonoBehaviour
      
 
     public void die(){
-        score = 0;
+        
             gameover = true;
             gm.gameOver();
             Destroy(this.gameObject);
